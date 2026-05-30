@@ -21,6 +21,8 @@ st.markdown(
     """
     <style>
     #MainMenu, .stDeployButton, [data-testid="stStatusWidget"], [data-testid="stSidebarNav"] { visibility: hidden; display: none; }
+    div[data-testid="column"]:first-child { display: flex; align-items: center; min-height: 48px; }
+    div[data-testid="stTextInput"] { min-width: 380px; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -84,7 +86,7 @@ st.divider()
 st.markdown(f"### {_('home_heading')}")
 st.caption(_("home_desc"))
 
-col_in, _col_spacer = st.columns([1, 1])
+col_in, _col_spacer = st.columns([3, 1])
 with col_in:
     username = st.text_input(
         _("input_username_label"),
