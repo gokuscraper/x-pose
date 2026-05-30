@@ -12,7 +12,7 @@ else:
     _icon = "🛠️"
 
 st.set_page_config(
-    page_title="悟空X鉴定器 | Twitter Personality",
+    page_title="X-POSE | 悟空X照妖镜",
     page_icon=_icon,
     layout="wide",
 )
