@@ -1,0 +1,2 @@
+# 系统依赖（apt），按需添加
+# 例如: chromium, chromium-driver, nodejs 等
