@@ -57,9 +57,7 @@ def fetch_all(username: str) -> tuple[TwitterUser, list[Tweet]]:
     out = out_b.decode("utf-8", errors="replace")
     err = err_b.decode("utf-8", errors="replace")
 
-    if err.strip():
-        raise RuntimeError(err.strip())
-
+    # 只将 stdout 无结果视为错误；stderr 可能包含 CloakBrowser banner 等非错误信息
     user = None
     tweets = []
 
