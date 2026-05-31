@@ -1,5 +1,6 @@
 import streamlit as st
 import json
+from urllib.parse import quote
 
 from i18n import _
 from lib.tweet_utils import summarize_tweets
@@ -153,13 +154,13 @@ body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-seri
         <img src="{avatar_url}" class="banner-avatar" onerror="this.style.display='none'">
         <span class="banner-name">{display_name}</span>
         <span class="banner-username">@{username}</span>
-        &mdash; 人格分析报告
+        &mdash; {_("report_title")}
     </div>
     <div class="card-grid">{cards}</div>
     <div class="report-footer">Powered by X-POSE (X照妖镜) | xpose.streamlit.app</div>
 </div>
 <div class="toolbar">
-    <button class="btn-download" onclick="capture()">📸 下载为图片</button>
+    <button class="btn-download" onclick="capture()">{_("btn_download")}</button>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
@@ -256,6 +257,13 @@ if result:
             f"<div style='max-width:700px;margin:0 auto 2rem auto;text-align:center;color:#4b5563;font-size:1rem;'>{_md(about)}</div>",
             unsafe_allow_html=True,
         )
+
+    # Share to X
+    share_txt = _("share_text").format(user=user.username)
+    share_url = f"https://twitter.com/intent/tweet?text={quote(share_txt)}"
+    c1, c2 = st.columns([1, 8])
+    with c1:
+        st.link_button(_("share_x"), share_url)
 
     # Build report HTML with cards + screenshot button
     report_html = _build_report_html(result, user.username, user.name, user.avatar)
