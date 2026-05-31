@@ -11,11 +11,12 @@ scraper/worker.py — 在独立进程中运行爬虫，通过 stdin/stdout JSON 
 import io
 import json
 import sys
+from pathlib import Path
 
 # Worker 输出必须用 UTF-8，避免 GBK 编码报错
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
-sys.path.insert(0, str(__file__).rsplit("\\", 2)[0])
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from scraper.fetcher import fetch_all, scrape_and_save
 from scraper.client import shutdown
