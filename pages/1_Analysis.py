@@ -89,7 +89,7 @@ def _card_html(key_label, emoji, color, wide, fmt, data):
     </div>"""
 
 
-def _build_report_html(result: dict, username: str) -> str:
+def _build_report_html(result: dict, username: str, display_name: str = "", avatar_url: str = "") -> str:
     # Build each card HTML
     cards = ""
     for key, emoji, color, wide, fmt in CARD_CONFIG:
@@ -124,7 +124,10 @@ def _build_report_html(result: dict, username: str) -> str:
 body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
         background:#fafafa; padding:20px; }}
 .banner {{ text-align:center; font-size:1.4rem; font-weight:700; margin-bottom:1.5rem;
-           color:#1f2937; }}
+           color:#1f2937; display:flex; align-items:center; justify-content:center; gap:0.5rem; }}
+.banner-avatar {{ width:40px; height:40px; border-radius:50%; }}
+.banner-name {{ }}
+.banner-username {{ color:#9ca3af; font-weight:400; font-size:1rem; }}
 .card-grid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
              gap:1.5rem; max-width:900px; margin:0 auto; }}
 .card {{ }}
@@ -146,7 +149,12 @@ body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-seri
 </head>
 <body>
 <div id="report">
-    <div class="banner">@{username} &mdash; 人格分析报告</div>
+    <div class="banner">
+        <img src="{avatar_url}" class="banner-avatar" onerror="this.style.display='none'">
+        <span class="banner-name">{display_name}</span>
+        <span class="banner-username">@{username}</span>
+        &mdash; 人格分析报告
+    </div>
     <div class="card-grid">{cards}</div>
     <div class="report-footer">Powered by X-POSE (X照妖镜) | xpose.streamlit.app</div>
 </div>
@@ -250,7 +258,7 @@ if result:
         )
 
     # Build report HTML with cards + screenshot button
-    report_html = _build_report_html(result, user.username)
+    report_html = _build_report_html(result, user.username, user.name, user.avatar)
     st.components.v1.html(report_html, height=1800, scrolling=True)
 
     st.divider()
