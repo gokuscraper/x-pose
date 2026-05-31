@@ -34,7 +34,7 @@ X照妖镜是一个单人 Twitter 人格分析工具。输入用户名 → 抓�
 
 ### 在线体验
 
-👉 **[xpose.streamlit.app](https://xpose.streamlit.app)**
+👉 **[xpose7.streamlit.app](https://xpose7.streamlit.app)**
 
 ### 本地运行
 

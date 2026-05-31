@@ -157,7 +157,7 @@ body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-seri
         &mdash; {_("report_title")}
     </div>
     <div class="card-grid">{cards}</div>
-    <div class="report-footer">Powered by X-POSE (X照妖镜) | xpose.streamlit.app</div>
+    <div class="report-footer">Powered by X-POSE (X照妖镜) | xpose7.streamlit.app</div>
 </div>
 <div class="toolbar">
     <button class="btn-download" onclick="capture()">{_("btn_download")}</button>

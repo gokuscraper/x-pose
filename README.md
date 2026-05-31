@@ -34,7 +34,7 @@ Inspired by [Wordware](https://wordware.ai)'s viral Twitter personality project.
 
 ### Try it online
 
-👉 **[xpose.streamlit.app](https://xpose.streamlit.app)**
+👉 **[xpose7.streamlit.app](https://xpose7.streamlit.app)**
 
 ### Run locally
 
