@@ -21,7 +21,6 @@ st.markdown(
     """
     <style>
     #MainMenu, .stDeployButton, [data-testid="stStatusWidget"], [data-testid="stSidebarNav"] { visibility: hidden; display: none; }
-    div[data-testid="column"]:first-child { display: flex; align-items: center; min-height: 48px; }
     div[data-testid="stTextInput"] { min-width: 380px; }
     </style>
     """,
@@ -54,15 +53,15 @@ _init()
 from lib.sidebar import render_sidebar
 render_sidebar()
 
-title_col1, title_col2, title_col3 = st.columns([1, 10, 5])
-with title_col1:
+title_col, title_col3 = st.columns([10, 5])
+with title_col:
+    logo_html = ""
     logo_path = Path(__file__).parent / "xpose-logo.jpg"
     if logo_path.exists():
-        st.image(str(logo_path), width=42)
-
-with title_col2:
+        b64 = base64.b64encode(logo_path.read_bytes()).decode()
+        logo_html = f'<img src="data:image/jpeg;base64,{b64}" style="width:42px;height:42px;vertical-align:middle;margin-right:10px;">'
     st.markdown(
-        f"<h1 style='margin:0;margin-left:-22px;'>{_('title')}</h1>",
+        f"<h1 style='margin:0;display:flex;align-items:center;'>{logo_html}{_('title')}</h1>",
         unsafe_allow_html=True,
     )
 
