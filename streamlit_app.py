@@ -4,10 +4,10 @@ from pathlib import Path
 
 import streamlit as st
 
-_logo_path = Path(__file__).parent / "logo.svg"
+_logo_path = Path(__file__).parent / "xpose-logo.jpg"
 if _logo_path.exists():
-    _svg_b64 = base64.b64encode(_logo_path.read_bytes()).decode()
-    _icon = f"data:image/svg+xml;base64,{_svg_b64}"
+    _jpg_b64 = base64.b64encode(_logo_path.read_bytes()).decode()
+    _icon = f"data:image/jpeg;base64,{_jpg_b64}"
 else:
     _icon = "🛠️"
 
@@ -56,10 +56,9 @@ render_sidebar()
 
 title_col1, title_col2, title_col3 = st.columns([1, 10, 5])
 with title_col1:
-    logo_path = Path(__file__).parent / "logo.svg"
+    logo_path = Path(__file__).parent / "xpose-logo.jpg"
     if logo_path.exists():
-        svg = logo_path.read_text(encoding="utf-8")
-        st.image(svg, width=42)
+        st.image(str(logo_path), width=42)
 
 with title_col2:
     st.markdown(

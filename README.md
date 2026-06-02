@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo.svg" width="60" alt="X-POSE logo">
+  <img src="xpose-logo.jpg" width="60" alt="X-POSE logo">
 </p>
 
 <h1 align="center">X-POSE</h1>
