@@ -48,5 +48,10 @@
   "card_animal": "代表动物",
   "card_fiftyDollarThing": "会买的东西",
   "card_career": "职业",
-  "card_lifeSuggestion": "人生建议"
+  "card_lifeSuggestion": "人生建议",
+  "btn_section1": "📸 资料+人格简介",
+  "btn_section2": "📸 分析(上)",
+  "btn_section3": "📸 分析(中)",
+  "btn_section4": "📸 分析(下)",
+  "btn_download_all": "📥 全部下载"
 }

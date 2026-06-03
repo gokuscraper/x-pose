@@ -48,5 +48,10 @@
   "card_animal": "Animal",
   "card_fiftyDollarThing": "$50 Thing",
   "card_career": "Career",
-  "card_lifeSuggestion": "Life Suggestion"
+  "card_lifeSuggestion": "Life Suggestion",
+  "btn_section1": "📸 Profile+About",
+  "btn_section2": "📸 Analysis (1)",
+  "btn_section3": "📸 Analysis (2)",
+  "btn_section4": "📸 Analysis (3)",
+  "btn_download_all": "📥 Download All"
 }
