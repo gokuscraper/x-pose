@@ -61,7 +61,7 @@ def analyze_personality(user: TwitterUser, tweets: list[Tweet], lang: str = "zh"
     user_json = json.dumps(user.raw, ensure_ascii=False)
 
     resp = client.chat.completions.create(
-        model="deepseek-ai/DeepSeek-V4-Pro",
+        model="deepseek-ai/DeepSeek-V4-Flash",
         messages=[
             {"role": "system", "content": ANALYSIS_PROMPT.format(lang=lang)},
             {
