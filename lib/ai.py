@@ -37,31 +37,21 @@ Rules:
 # 所以用纯文本输出 + prompt 强约束 JSON 格式
 
 
-def _get_key() -> str:
-    key = os.getenv("SILICON_API_KEY", "")
+def _get_key(name: str) -> str:
+    key = os.getenv(name, "")
     if not key:
         try:
             import streamlit as st
-            key = st.secrets.get("SILICON_API_KEY", "")
+            key = st.secrets.get(name, "")
         except Exception:
             pass
     return key
 
 
-def analyze_personality(user: TwitterUser, tweets: list[Tweet], lang: str = "zh") -> dict:
-    key = _get_key()
-    if not key:
-        raise RuntimeError(
-            "SILICON_API_KEY not found. "
-            "Set it via environment variable or in .streamlit/secrets.toml"
-        )
-
-    client = OpenAI(api_key=key, base_url="https://api.siliconflow.cn/v1")
-    tweets_md = format_tweets_md(tweets)
-    user_json = json.dumps(user.raw, ensure_ascii=False)
-
+def _call_api(key: str, base_url: str, model: str, lang: str, user_json: str, tweets_md: str, max_tokens: int = 4096) -> str:
+    client = OpenAI(api_key=key, base_url=base_url)
     resp = client.chat.completions.create(
-        model="deepseek-ai/DeepSeek-V4-Flash",
+        model=model,
         messages=[
             {"role": "system", "content": ANALYSIS_PROMPT.format(lang=lang)},
             {
@@ -70,15 +60,55 @@ def analyze_personality(user: TwitterUser, tweets: list[Tweet], lang: str = "zh"
             },
         ],
         temperature=0.7,
-        max_tokens=4096,
+        max_tokens=max_tokens,
     )
+    return resp.choices[0].message.content
 
-    raw = resp.choices[0].message.content
 
-    # Strip possible markdown code fence
+def _parse_json(raw: str) -> dict:
     raw = raw.strip()
     if raw.startswith("```"):
         raw = raw.split("\n", 1)[-1]
         raw = raw.rsplit("```", 1)[0]
-
     return json.loads(raw.strip())
+
+
+def analyze_personality(user: TwitterUser, tweets: list[Tweet], lang: str = "zh") -> dict:
+    tweets_md = format_tweets_md(tweets)
+    user_json = json.dumps(user.raw, ensure_ascii=False)
+
+    # Try OpenCode free channel first
+    free_key = _get_key("OPENCODE_API_KEY")
+    if free_key:
+        try:
+            raw = _call_api(
+                key=free_key,
+                base_url="https://opencode.ai/zen/v1",
+                model="deepseek-v4-flash-free",
+                lang=lang,
+                user_json=user_json,
+                tweets_md=tweets_md,
+                max_tokens=8192,  # thinking model needs more budget
+            )
+            return _parse_json(raw)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+
+    # Fall back to SiliconFlow
+    key = _get_key("SILICON_API_KEY")
+    if not key:
+        raise RuntimeError(
+            "No API key available. "
+            "Set OPENCODE_API_KEY or SILICON_API_KEY in environment or secrets.toml"
+        )
+
+    raw = _call_api(
+        key=key,
+        base_url="https://api.siliconflow.cn/v1",
+        model="deepseek-ai/DeepSeek-V4-Flash",
+        lang=lang,
+        user_json=user_json,
+        tweets_md=tweets_md,
+    )
+    return _parse_json(raw)
