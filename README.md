@@ -16,9 +16,18 @@
 
 ## Overview
 
-X-POSE is a single-user Twitter personality analyzer. Enter a username → scrape their profile & latest tweets → DeepSeek V4 Pro AI generates a 15-dimension personality report with cards, roast, strengths, weaknesses, and more.
+X-POSE is a single-user Twitter personality analyzer. Enter a username → scrape their profile & latest tweets → AI generates a 15-dimension personality report with cards, roast, strengths, weaknesses, and more.
 
 Inspired by [Wordware](https://wordware.ai)'s viral Twitter personality project.
+
+## Screenshots
+
+<p float="left">
+  <img src="case/elonmusk_1_profile (1).png" width="45%" alt="Profile & about">
+  <img src="case/elonmusk_2_analysis_a (1).png" width="45%" alt="Roast & analysis cards">
+</p>
+
+> English report for @elonmusk. See [case/cn/](./case/cn/) for Chinese examples.
 
 ## Features
 

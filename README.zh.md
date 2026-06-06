@@ -16,9 +16,18 @@
 
 ## 概述
 
-X照妖镜是一个单人 Twitter 人格分析工具。输入用户名 → 抓取资料和最新推文 → DeepSeek V4 Pro 生成 15 维人格分析报告，包含吐槽、长处、弱点、爱情观等卡片。
+X照妖镜是一个单人 Twitter 人格分析工具。输入用户名 → 抓取资料和最新推文 → AI 生成 15 维人格分析报告，包含吐槽、长处、弱点、爱情观等卡片。
 
 灵感来自 [Wordware](https://wordware.ai) 那个刷屏的 Twitter 人格项目。
+
+## 效果截图
+
+<p float="left">
+  <img src="case/cn/luoyonghao_1_profile.png" width="45%" alt="资料与人格简介">
+  <img src="case/cn/luoyonghao_2_analysis_a.png" width="45%" alt="吐槽与分析卡片">
+</p>
+
+> 中文报告（@罗永浩）。英文示例见 [case/](../case/) 目录。
 
 ## 功能
 
