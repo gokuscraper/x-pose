@@ -27,7 +27,7 @@
   "ai_hint": "Click the button below for deep personality analysis.",
   "btn_run_ai": "✨ AI Personality Analysis",
   "btn_rerun_ai": "🔄 Re-analyze",
-  "spinner_ai": "AI analyzing... This may take 10-20 seconds.",
+  "spinner_ai": "AI analyzing... Due to the large amount of data, this may take 30-60 seconds.",
   "nav_home": "🏠 Home",
   "nav_analysis": "📊 Analysis",
   "report_title": "Personality Report",

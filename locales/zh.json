@@ -27,7 +27,7 @@
   "ai_hint": "点击下方按钮，AI 将对推文进行深度人格分析。",
   "btn_run_ai": "✨ AI 人格分析",
   "btn_rerun_ai": "🔄 重新分析",
-  "spinner_ai": "AI 正在分析... 这可能需要 10-20 秒。",
+  "spinner_ai": "AI 正在分析... 因为数据量较大，这可能需要 30-60 秒。",
   "nav_home": "🏠 首页",
   "nav_analysis": "📊 分析报告",
   "report_title": "人格分析报告",
