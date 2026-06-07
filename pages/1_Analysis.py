@@ -96,7 +96,7 @@ def _estimate_account_value(user, summary: dict, lang: str) -> str:
     base += summary.get("total_retweets", 0) * 1
     base += summary.get("avg_views", 0) * 0.1
     if user.verified:
-        base += 5000
+        base += min(5000, user.followers * 2)
     if lang == "zh":
         return f"¥{base * 7:,.0f}"
     return f"${base:,.0f}"
