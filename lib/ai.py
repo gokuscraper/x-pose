@@ -1,5 +1,7 @@
 import json
 import os
+import time
+import traceback
 from openai import OpenAI
 
 from scraper.models import TwitterUser, Tweet
@@ -77,30 +79,32 @@ def analyze_personality(user: TwitterUser, tweets: list[Tweet], lang: str = "zh"
     tweets_md = format_tweets_md(tweets)
     user_json = json.dumps(user.raw, ensure_ascii=False)
 
-    # Try OpenCode free channel first
+    # Try OpenCode free channel first (retry 3 times)
     free_key = _get_key("OPENCODE_API_KEY")
     if free_key:
-        try:
-            raw = _call_api(
-                key=free_key,
-                base_url="https://opencode.ai/zen/v1",
-                model="deepseek-v4-flash-free",
-                lang=lang,
-                user_json=user_json,
-                tweets_md=tweets_md,
-                max_tokens=8192,  # thinking model needs more budget
-            )
-            return _parse_json(raw)
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
+        for attempt in range(3):
+            try:
+                raw = _call_api(
+                    key=free_key,
+                    base_url="https://opencode.ai/zen/v1",
+                    model="deepseek-v4-flash-free",
+                    lang=lang,
+                    user_json=user_json,
+                    tweets_md=tweets_md,
+                    max_tokens=8192,
+                )
+                return _parse_json(raw)
+            except Exception:
+                if attempt < 2:
+                    time.sleep(0.5)
+                    continue
+                traceback.print_exc()
 
     # Fall back to SiliconFlow
     key = _get_key("SILICON_API_KEY")
     if not key:
         raise RuntimeError(
-            "No API key available. "
-            "Set OPENCODE_API_KEY or SILICON_API_KEY in environment or secrets.toml"
+            "AI 分析结果异常，请稍后重新尝试"
         )
 
     raw = _call_api(

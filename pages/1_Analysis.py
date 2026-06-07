@@ -90,7 +90,19 @@ def _card_html(key_label, emoji, color, wide, fmt, data):
     </div>"""
 
 
-def _build_report_html(result: dict, user, summary: dict, tweets: list) -> str:
+def _estimate_account_value(user, summary: dict, lang: str) -> str:
+    base = user.followers * 0.2
+    base += summary.get("avg_likes", 0) * 5
+    base += summary.get("total_retweets", 0) * 1
+    base += summary.get("avg_views", 0) * 0.1
+    if user.verified:
+        base += 5000
+    if lang == "zh":
+        return f"¥{base * 7:,.0f}"
+    return f"${base:,.0f}"
+
+
+def _build_report_html(result: dict, user, summary: dict, tweets: list, lang: str = "zh") -> str:
     username = user.username
     display_name = user.name or user.username
     avatar_url = user.avatar
@@ -122,6 +134,10 @@ def _build_report_html(result: dict, user, summary: dict, tweets: list) -> str:
     about = result.get("about", "")
     about_html = _md(about) if about else ""
     tweet_heading = f"""<div style="font-size:1.1rem;font-weight:600;margin-top:1.5rem;color:#1f2937;">📊 {_("tweet_stats")}</div>""" if tweet_stats_html else ""
+    account_value = _estimate_account_value(user, summary, lang)
+    account_value_html = f"""<div style="margin:1.2rem auto;padding:0.8rem 1.5rem;background:linear-gradient(135deg,#1e293b,#334155);border-radius:12px;text-align:center;color:#fff;font-size:1.1rem;max-width:450px;">
+        {_("account_value")}：<span style="font-weight:700;font-size:1.4rem;color:#fbbf24;">{account_value}</span>
+    </div>"""
     footer_text = "Powered by X-POSE (X照妖镜) | xpose7.streamlit.app"
     section1 = f"""
     <div id="report-1" style="padding:20px;">
@@ -138,6 +154,7 @@ def _build_report_html(result: dict, user, summary: dict, tweets: list) -> str:
         {stats_row}
         {tweet_heading}
         {tweet_stats_html}
+        {account_value_html}
         <div style="text-align:center;margin-top:1.5rem;">
             <div style="font-size:2.5rem;letter-spacing:0.3rem;">{emojis}</div>
             <div style="max-width:700px;margin:1rem auto;color:#4b5563;font-size:1rem;line-height:1.7;">{about_html}</div>
@@ -314,7 +331,7 @@ if result:
         st.link_button(_("share_x"), share_url)
 
     # Build report HTML with cards + screenshot button
-    report_html = _build_report_html(result, user, summary, tweets)
+    report_html = _build_report_html(result, user, summary, tweets, lang=st.session_state.get("lang", "zh"))
     st.components.v1.html(report_html, height=1800, scrolling=True)
 
     st.divider()
