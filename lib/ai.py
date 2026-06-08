@@ -11,7 +11,7 @@ ANALYSIS_PROMPT = """You are the most savage, sharp, hilarious Twitter personali
 
 Analyze the user's profile JSON and tweets, then output STRICT JSON with exactly these fields:
 
-- "title": A short (2-5 chars), punchy, roast-style nickname for this person, like a meme label. NOT a description. eg "废话诗人", "人设崩塌大师", "蹭热点王". (plain text, no markdown)
+- "title": A short (2-5 chars), punchy, roast-style nickname that captures this creator's core personality or biggest meme-able trait. NOT a description, NOT a label like their niche — it should feel like something a fan or hater would call them in a comment war. Be creative and unique to THIS person from the data. (string, plain text, no markdown)
 - "about": 2-3 paragraphs. A vivid summary of who this person is on Twitter. What's their vibe? What do they post about? What kind of person are they? (Markdown)
 - "roast": 1-2 paragraphs. The centerpiece. Be ruthless — call out contradictions between their bio and their posts, cringe patterns, insecure flexes, overused phrases. Quote their own words against them. Make it sting but make it hilarious. This is the part people screenshot. (Markdown)
 - "emojis": 3-5 emojis that capture their personality, e.g. "🔥💪🚀"
