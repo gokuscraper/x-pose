@@ -239,25 +239,45 @@ body {{ font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-seri
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 var username = '{username}';
-function capture(id, name) {{
-    html2canvas(document.getElementById(id), {{ scale:2, useCORS:true }})
-        .then(function(canvas) {{
-            var link = document.createElement('a');
-            link.download = name + '.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        }})
-        .catch(function(err) {{ document.getElementById('err').textContent = '截图失败: ' + err.message; }});
+var dlQueue = [];
+function dlAdd(fn) {{ dlQueue.push(fn); if (dlQueue.length===1) dlNext(); }}
+function dlNext() {{
+    if (!dlQueue.length) return;
+    dlQueue[0](function() {{ dlQueue.shift(); dlNext(); }});
 }}
-function dlAvatar(url, name) {{
-    fetch(url).then(r=>r.blob()).then(b=>{{var a=document.createElement('a');a.download=name+'_avatar.png';a.href=URL.createObjectURL(b);a.click();}}).catch(function(){{}});
+function capture(id, idx, label) {{
+    dlAdd(function(done) {{
+        html2canvas(document.getElementById(id), {{ scale:2, useCORS:true }})
+            .then(function(canvas) {{
+                var link = document.createElement('a');
+                link.download = username + '_' + idx + '_' + label + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                done();
+            }})
+            .catch(function(err) {{
+                document.getElementById('err').textContent = '截图失败: ' + err.message;
+                done();
+            }});
+    }});
+}}
+function dlAvatar(idx) {{
+    dlAdd(function(done) {{
+        fetch('{avatar_url}').then(function(r){{return r.blob()}}).then(function(b){{
+            var a=document.createElement('a');
+            a.download=username+'_'+idx+'_avatar.png';
+            a.href=URL.createObjectURL(b);
+            a.click();
+            done();
+        }}).catch(function(){{done();}});
+    }});
 }}
 function downloadAll() {{
-    dlAvatar('{avatar_url}', username);
-    capture('report-1', username + '_1_profile');
-    setTimeout(function() {{ capture('report-2', username + '_2_analysis_a'); }}, 500);
-    setTimeout(function() {{ capture('report-3', username + '_3_analysis_b'); }}, 1000);
-    setTimeout(function() {{ capture('report-4', username + '_4_analysis_c'); }}, 1500);
+    dlAvatar(1);
+    capture('report-1', 2, 'profile');
+    capture('report-2', 3, 'analysis_a');
+    capture('report-3', 4, 'analysis_b');
+    capture('report-4', 5, 'analysis_c');
 }}
 </script>
 <p id="err" style="color:red;text-align:center;padding:0 20px 20px;"></p>
