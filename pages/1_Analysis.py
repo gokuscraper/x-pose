@@ -132,6 +132,7 @@ def _build_report_html(result: dict, user, summary: dict, tweets: list, lang: st
     # Profile + Stats + Emojis + About (merged section 1)
     emojis = result.get("emojis", "")
     about = result.get("about", "")
+    title_text = result.get("title", "")
     about_html = _md(about) if about else ""
     tweet_heading = f"""<div style="font-size:1.1rem;font-weight:600;margin-top:1.5rem;color:#1f2937;">📊 {_("tweet_stats")}</div>""" if tweet_stats_html else ""
     account_value = _estimate_account_value(user, summary, lang)
@@ -139,9 +140,11 @@ def _build_report_html(result: dict, user, summary: dict, tweets: list, lang: st
         {_("account_value")}：<span style="font-weight:700;font-size:1.4rem;color:#fbbf24;">{account_value}</span>
     </div>"""
     footer_text = "Powered by X-POSE (X照妖镜) | xpose7.streamlit.app"
+    title_html = f"""<div style="text-align:center;font-size:1.3rem;font-weight:800;margin-bottom:1rem;color:#e53e3e;">{title_text}</div>""" if title_text else ""
     section1 = f"""
     <div id="report-1" style="padding:20px;">
-        <div style="text-align:center;font-size:1.6rem;font-weight:700;margin-bottom:1.2rem;color:#1f2937;">X{_("report_title")}</div>
+        <div style="text-align:center;font-size:1.6rem;font-weight:700;margin-bottom:0.5rem;color:#1f2937;">X{_("report_title")}</div>
+        {title_html}
         <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
             <img src="{avatar_url}" style="width:56px;height:56px;border-radius:50%;" onerror="this.style.display='none'">
             <div>
