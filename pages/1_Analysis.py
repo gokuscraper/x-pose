@@ -243,7 +243,7 @@ var dlQueue = [];
 function dlAdd(fn) {{ dlQueue.push(fn); if (dlQueue.length===1) dlNext(); }}
 function dlNext() {{
     if (!dlQueue.length) return;
-    dlQueue[0](function() {{ dlQueue.shift(); dlNext(); }});
+    dlQueue[0](function() {{ dlQueue.shift(); setTimeout(dlNext, 800); }});
 }}
 function capture(id, idx, label) {{
     dlAdd(function(done) {{
