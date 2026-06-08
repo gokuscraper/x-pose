@@ -249,7 +249,11 @@ function capture(id, name) {{
         }})
         .catch(function(err) {{ document.getElementById('err').textContent = '截图失败: ' + err.message; }});
 }}
+function dlAvatar(url, name) {{
+    fetch(url).then(r=>r.blob()).then(b=>{{var a=document.createElement('a');a.download=name+'_avatar.png';a.href=URL.createObjectURL(b);a.click();}}).catch(function(){{}});
+}}
 function downloadAll() {{
+    dlAvatar('{avatar_url}', username);
     capture('report-1', username + '_1_profile');
     setTimeout(function() {{ capture('report-2', username + '_2_analysis_a'); }}, 500);
     setTimeout(function() {{ capture('report-3', username + '_3_analysis_b'); }}, 1000);
