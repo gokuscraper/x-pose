@@ -273,11 +273,11 @@ function dlAvatar(idx) {{
     }});
 }}
 function downloadAll() {{
-    dlAvatar(1);
-    capture('report-1', 2, 'profile');
-    capture('report-2', 3, 'analysis_a');
-    capture('report-3', 4, 'analysis_b');
     capture('report-4', 5, 'analysis_c');
+    capture('report-3', 4, 'analysis_b');
+    capture('report-2', 3, 'analysis_a');
+    capture('report-1', 2, 'profile');
+    dlAvatar(1);
 }}
 </script>
 <p id="err" style="color:red;text-align:center;padding:0 20px 20px;"></p>
